@@ -1,0 +1,31 @@
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+
+<body>
+
+<div id="output">
+<a href="http://example.org/my-script.php?class=guest&amp;name=user">&amp;&</a>
+</div>
+
+<script id="output2">
+
+</script>
+<textarea id="text"></textarea>
+<button id="button">submit</button>
+
+<script>
+var button = document.getElementById("button");
+button.addEventListener("click", function(e) {
+    var text = document.getElementById("text").value;
+    var output = document.getElementById("output");
+    output.innerHTML = text;
+//    output.innerHTML = "alert(0);";
+});
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+<html>
+<head>
+</head>
+
+<body>
+<script>
+var xhr = new XMLHttpRequest();
+xhr.open("get", "http://localhost:1234/")
+xhr.send();
+xhr.onload = function (e) {
+  if (xhr.readyState === 4) {
+    if (xhr.status === 200) {
+        console.log(xhr.responseText);
+        var a = "someString" + xhr.responseText + "some more string";
+        var p = document.createElement("p");
+        JSON.parse(xhr.response);
+        // img xss
+        p.innerHTML = a;
+        document.body.appendChild(p);console.log(a);
+        // script xss from json payload
+        //document.write(a);
+    } else {
+      console.error(xhr.statusText);
+    }
+  }
+};
+</script>
+</body>
