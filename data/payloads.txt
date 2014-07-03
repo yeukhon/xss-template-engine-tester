@@ -1,0 +1,15 @@
+http://google.com
+http://localhost:8000
+http://username:password@localhost:8000/
+http://localhost:8000/home?username=<script>alert('xss');</script>
+http://localhost:8000/?&lt;script&gt;alert(0)&lt;/&gt;
+<script>alert(0)</script>
+"><script>alert(0)</script>
+"></a><script>alert(0)</script>
+<script><script>alert(0)</script>
+<script>eval('a\u006cert(1)');</script>
+<script>eval(String.fromCharCode(97,108,101,114,116,40,49,41));</script>
+foo\'; alert(0);//
+<img/somejunk/onerror=alert() src=a>
+<audio src=1 onerror=alert(1)>
+\'foo\'; alert(0);//
