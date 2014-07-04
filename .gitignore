@@ -1,3 +1,11 @@
+# Ignore output/ directory
+output/
+
+# Ignore temp files
+*.swp
+*.temp
+*.tmp
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

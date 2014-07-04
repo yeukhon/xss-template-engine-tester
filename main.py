@@ -13,6 +13,10 @@ DATA_DIR = os.path.join(ROOT_DIR, "data")
 OUTPUT_DIR = os.path.join(ROOT_DIR, "output")
 PAYLOAD_FPATH = os.path.join(DATA_DIR, "payloads.txt")
 TEMPLATE_FPATH = os.path.join(DATA_DIR, "templates.txt")
+OUTPUT_FPATH = os.path.join(OUTPUT_DIR, "output.txt")
+
+# Build a list collecting all the output file names
+OUTPUT_LIST = []
 
 # We must set up a django configuration before we can even use
 # django's template engine.
@@ -25,7 +29,6 @@ def create_html(html, filename):
     Args:
         html: fully rendered HTML string
     """
-    print os.path.join(OUTPUT_DIR, filename)
     with open(os.path.join(OUTPUT_DIR, filename), "w+") as f:
         f.write(html)
 
@@ -44,6 +47,8 @@ def use_django(test_tuple, t_index, p_index):
     html = use_django_render(test_tuple)
     file_name = "{}_{}_django.html".format(t_index, p_index)
     create_html(html, file_name)
+    global OUTPUT_LIST
+    OUTPUT_LIST.append(file_name)
 
 def use_django_render(test_tuple):
     """Renders template into HTML using Django's template system.
@@ -92,6 +97,11 @@ def create_htmls():
     # Closing off the file descriptors!
     _templates.close()
     _payloads.close()
+
+    global OUTPUT_LIST
+    with open(OUTPUT_FPATH, "w+") as f:
+        for fname in OUTPUT_LIST:
+            f.write(fname+"\n")
 
 if __name__ == "__main__":
     create_htmls()
