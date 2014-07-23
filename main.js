@@ -1,5 +1,6 @@
 var webdriver = require('selenium-webdriver');
 var Q = require('q');
+var fs = require('fs');
 
 function browser(fpath) {
 
@@ -40,7 +41,7 @@ function browser(fpath) {
         withCapabilities(webdriver.Capabilities.chrome()).
         build();  
 
-    driver.get("http://localhost:8000/" + fpath)
+    driver.get("http://localhost:8000/output/" + fpath)
     setTimeout(function () {
         var alert = driver.switchTo().alert();
         setTimeout(function () {
@@ -53,22 +54,19 @@ function browser(fpath) {
     return deferred.promise;
 }
 
-function main () {
-    var tests = ["gooda.html", "bad.html", "bad.html", "good.html"];
-    var testPromises = tests.map(browser);
-    return Q.all(testPromises);
-}
+var main = {
+    setUp: function (indexName) {
+       var deferred = Q.defer();
+        Q.nfcall(fs.readFile, indexName, "utf-8")
+            .then(function (fdata) {
+                deferred.resolve(fdata.trim().split("\n"));
+            });
+        return deferred.promise;
+    },
+    run: function (testList) {
+        var testPromises = testList.map(browser);
+        return Q.all(testPromises);
+    }
+};
 
-main()
- .then(function (results) {
-    console.log("Receving results...");
-    console.log(results);
-  })
-
-/*
-browser("bad.html")
- .then(function (result) {
-    console.log("Receving result...");
-    console.log(result);
-  })
-*/
+exports.main = main;
